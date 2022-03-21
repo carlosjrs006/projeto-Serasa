@@ -1,9 +1,8 @@
 package br.com.projeto.serasa02.mappers;
 
-import br.com.projeto.serasa02.dtos.models.ResumoPessoaDTO;
 import br.com.projeto.serasa02.dtos.forms.PessoaFormPostDTO;
 import br.com.projeto.serasa02.dtos.models.PessoaDTO;
-import br.com.projeto.serasa02.model.entity.Pessoa;
+import br.com.projeto.serasa02.model.Pessoa;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +29,7 @@ public class PessoaMapper {
     public List<PessoaDTO> modelListToDtoList(List<Pessoa> pessoas){
 
         return pessoas.stream()
-                .map(pessoa -> modelToDto(pessoa))
+                .map(this::modelToDto)
                 .collect(Collectors.toList());
     }
 

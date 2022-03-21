@@ -1,6 +1,6 @@
 package br.com.projeto.serasa02.mappers;
 
-import br.com.projeto.serasa02.dtos.models.ResumoPessoaDTO;
+import br.com.projeto.serasa02.dtos.models.ResumoIdPessoaDTO;
 import br.com.projeto.serasa02.model.Pessoa;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +10,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ResumoPessoaMapper {
+public class ResumoIdPessoaMapper {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public ResumoPessoaDTO modelToDto(Pessoa pessoa){
+    public ResumoIdPessoaDTO modelToDto(Pessoa pessoa){
 
-        return modelMapper.map(pessoa, ResumoPessoaDTO.class);
+        return modelMapper.map(pessoa, ResumoIdPessoaDTO.class);
     }
 
-    public List<ResumoPessoaDTO> modelListToDtoList(List<Pessoa> pessoas){
+    public List<ResumoIdPessoaDTO> modelListToDtoList(List<Pessoa> pessoas){
 
         return pessoas.stream()
                 .map(this::modelToDto)
                 .collect(Collectors.toList());
     }
 }
+

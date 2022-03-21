@@ -1,13 +1,13 @@
 package br.com.projeto.serasa02.service;
 
 import br.com.projeto.serasa02.dtos.models.Score;
-import br.com.projeto.serasa02.model.entity.Pessoa;
+import br.com.projeto.serasa02.exceptions.RecursoNaoEncontradoException;
+import br.com.projeto.serasa02.model.Pessoa;
 import br.com.projeto.serasa02.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PessoaService {
@@ -16,32 +16,39 @@ public class PessoaService {
     private PessoaRepository repository;
 
 
-    public Pessoa save(Pessoa pessoa) {
+    public Pessoa salvar(Pessoa pessoa) {
         return repository.save(pessoa);
     }
 
 
-    public Optional<Pessoa> listById(Long id) {
-        return repository.findById(id);
+    public Pessoa buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário com o codigo: " + id + " não foi encontrado!"));
     }
 
 
-    public List<Pessoa> findAll() {
-        return repository.findAll();
+    public List<Pessoa> buscarTodos() {
+        try {
+            return repository.findAll();
+        }catch (RuntimeException e){
+            throw new RecursoNaoEncontradoException("Usuarios nao encontrados.");
+        }
     }
 
 
-    public String getScoreDescription(int score) {
+    public String getScoreDescricao(int score) {
         var scoreDescricao = "";
 
-        if (score == 0 || score <= 200) {
-            scoreDescricao = Score.INSUFICIENTE.toString();
-        } else if (score == 201 || score <= 500) {
-            scoreDescricao = Score.INACEITAVEL.toString();
-        } else if (score == 501 || score <= 700) {
-            scoreDescricao = Score.ACEITAVEL.toString();
-        } else if (score == 701 || score <= 1000 || score > 1000) {
-            scoreDescricao = Score.RECOMENDAVEL.toString();
+        if (score <= 200) {
+            scoreDescricao = Score.INSUFICIENTE.getDescricao();
+        } else if (score <= 500) {
+            scoreDescricao = Score.INACEITAVEL.getDescricao();
+        } else if (score <= 700) {
+            scoreDescricao = Score.ACEITAVEL.getDescricao();
+        } else if (score <= 1000) {
+            scoreDescricao = Score.RECOMENDAVEL.getDescricao();
+        } else {
+            throw new RuntimeException("Erro score fora dos parâmetros estabelecidos.");
         }
 
         return scoreDescricao;

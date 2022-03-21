@@ -1,4 +1,4 @@
-package br.com.projeto.serasa02.model.entity;
+package br.com.projeto.serasa02.model;
 
 
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false,length = 200)
+    @Column(nullable = false, length = 200)
     private String nome;
 
     @Column

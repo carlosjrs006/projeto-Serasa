@@ -1,6 +1,7 @@
 package br.com.projeto.serasa02.dtos.models;
 
 import lombok.*;
+
 import java.io.Serializable;
 
 
